@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -141,96 +142,108 @@ namespace Hospital
     {
        
         public void CreatObjects(User user)
-        {          
-
-            Doctor doctor1 = new Doctor
-            {
-                Name = "Terlan",
-                Surname = "Eyyubov",
-                PracticeYear = 10
-            };
-            Doctor doctor2 = new Doctor
-            {
-                Name = "Naile",
-                Surname = "Elekberova",
-                PracticeYear = 7
-            };
-            Doctor doctor3 = new Doctor
-            {
-                Name = "Murad",
-                Surname = "Dadasov",
-                PracticeYear = 1
-            };
-            Doctor doctor4 = new Doctor
-            {
-                Name = "Aylin",
-                Surname = "Elekberova",
-                PracticeYear = 15
-            };
-            Doctor doctor5 = new Doctor
-            {
-                Name = "Safura",
-                Surname = "Eliyeva",
-                PracticeYear = 8
-            };
-            Doctor doctor6 = new Doctor
-            {
-                Name = "Turxan",
-                Surname = "Hesenov",
-                PracticeYear = 3
-            };
-            Doctor doctor7 = new Doctor
-            {
-                Name = "Ayxan",
-                Surname = "Dadasov",
-                PracticeYear = 7
-            };
-
-            string time1 = "09:00-11:00";
-            string time2 = "12:00-14:00";
-            string time3 = "15:00-17:00";
-
-            string[] times = new string[3] { time1, time2, time3 };
-            doctor1.AddTimes(times);
-            doctor2.AddTimes(times);
-            doctor3.AddTimes(times);
-            doctor4.AddTimes(times);
-            doctor5.AddTimes(times);
-            doctor6.AddTimes(times);
-            doctor7.AddTimes(times);
-
-            Section sec1 = new Section
-            {
-                Name = "Pediatriya"
-            };
-            sec1.AddDoctor(doctor1);
-            sec1.AddDoctor(doctor2);
-            sec1.AddDoctor(doctor3);
-            sec1.AddDoctor(doctor4);
-
-            Section sec2 = new Section
-            {
-                Name = "Travmatologiya"
-            };           
-            sec2.AddDoctor(doctor5);
-            sec2.AddDoctor(doctor6);
-
-            Section sec3 = new Section
-            {
-                Name = "Stamatologiya"
-            };
-            sec3.AddDoctor(doctor7);
-
+        {
             Hospital hospital = new Hospital
             {
                 Name = "Avrasiya Hospital"
             };
-            hospital.AddSections(sec1);
-            hospital.AddSections(sec2);
-            hospital.AddSections(sec3);
-            hospital.AddUser(user);
-            Console.Clear();
-            Display2(hospital);
+            FileHelper FH = new FileHelper();
+            if (File.Exists("HOSPITAL.json"))            {
+                
+                FH.JsonDeserializeWorker(hospital);
+                Console.Clear();
+                Display2(hospital);
+            }
+            else
+            {
+                Doctor doctor1 = new Doctor
+                {
+                    Name = "Terlan",
+                    Surname = "Eyyubov",
+                    PracticeYear = 10
+                };
+                Doctor doctor2 = new Doctor
+                {
+                    Name = "Naile",
+                    Surname = "Elekberova",
+                    PracticeYear = 7
+                };
+                Doctor doctor3 = new Doctor
+                {
+                    Name = "Murad",
+                    Surname = "Dadasov",
+                    PracticeYear = 1
+                };
+                Doctor doctor4 = new Doctor
+                {
+                    Name = "Aylin",
+                    Surname = "Elekberova",
+                    PracticeYear = 15
+                };
+                Doctor doctor5 = new Doctor
+                {
+                    Name = "Safura",
+                    Surname = "Eliyeva",
+                    PracticeYear = 8
+                };
+                Doctor doctor6 = new Doctor
+                {
+                    Name = "Turxan",
+                    Surname = "Hesenov",
+                    PracticeYear = 3
+                };
+                Doctor doctor7 = new Doctor
+                {
+                    Name = "Ayxan",
+                    Surname = "Dadasov",
+                    PracticeYear = 7
+                };
+
+                string time1 = "09:00-11:00";
+                string time2 = "12:00-14:00";
+                string time3 = "15:00-17:00";
+
+                string[] times = new string[3] { time1, time2, time3 };
+                doctor1.AddTimes(times);
+                doctor2.AddTimes(times);
+                doctor3.AddTimes(times);
+                doctor4.AddTimes(times);
+                doctor5.AddTimes(times);
+                doctor6.AddTimes(times);
+                doctor7.AddTimes(times);
+
+                Section sec1 = new Section
+                {
+                    Name = "Pediatriya"
+                };
+                sec1.AddDoctor(doctor1);
+                sec1.AddDoctor(doctor2);
+                sec1.AddDoctor(doctor3);
+                sec1.AddDoctor(doctor4);
+
+                Section sec2 = new Section
+                {
+                    Name = "Travmatologiya"
+                };
+                sec2.AddDoctor(doctor5);
+                sec2.AddDoctor(doctor6);
+
+                Section sec3 = new Section
+                {
+                    Name = "Stamatologiya"
+                };
+                sec3.AddDoctor(doctor7);
+
+               
+                hospital.AddSections(sec1);
+                hospital.AddSections(sec2);
+                hospital.AddSections(sec3);
+                hospital.AddUser(user);
+                Console.Clear();
+                Display2(hospital);
+            }
+
+            FH.JsonSerializationWorker(hospital.Sections);
         }
         public void Display1()
         {
